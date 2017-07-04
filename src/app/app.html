@@ -1,14 +1,29 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
+      <ion-item padding>
+        <ion-avatar item-start>
+          <img src="http://via.placeholder.com/100x100">
+        </ion-avatar>
+        <h2>Mr.Kokoro Yukishima</h2>
+        <button ion-button round><ion-icon name="exit"></ion-icon>Logout</button>
+      </ion-item>
+<!--      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="http://via.placeholder.com/100x100">
+        </ion-thumbnail>
+        <h2>Mr.Kokoro Yukishima</h2>
+        <button ion-button round><ion-icon name="exit"></ion-icon>Logout</button>
+      </ion-item>-->
+
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+        <h1><b>{{p.title}}</b></h1>
       </button>
     </ion-list>
   </ion-content>

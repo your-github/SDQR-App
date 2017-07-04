@@ -28,6 +28,7 @@
         "angularfire2": "^4.0.0-rc.1",
         "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-compat": "^1.0.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
@@ -52,7 +53,9 @@
     "description": "An Ionic project",
     "cordova": {
         "plugins": {
-            "phonegap-plugin-barcodescanner": {},
+            "phonegap-plugin-barcodescanner": {
+                "CAMERA_USAGE_DESCRIPTION": " "
+            },
             "cordova-plugin-console": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
@@ -62,7 +65,8 @@
         },
         "platforms": [
             "android",
-            "browser"
+            "browser",
+            "ios"
         ]
     }
 }

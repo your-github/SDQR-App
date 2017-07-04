@@ -6,9 +6,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 
 /*** Firebase module */
-import { AngularFireModule } from 'angularfire2';
+/*import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireAuthModule } from 'angularfire2/auth';*/
 
 /*** App component */
 import { MyApp } from './app.component';
@@ -37,9 +37,9 @@ export const firebaseConfig = {
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig),
+/*    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule*/
   ],
   bootstrap: [IonicApp],
   entryComponents: [
