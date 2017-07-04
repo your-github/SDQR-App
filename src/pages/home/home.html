@@ -4,15 +4,77 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="primary" (click)="qrScanner()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <h1 padding text-center><strong>ລາຍການຂາຍ</strong></h1>
+  <ion-list>
+    <ion-item-sliding *ngFor="let order of orderlists; let i = index">
+      <button ion-item padding>
+        {{i+1}} {{order.format}} |  {{order.text}}
+        <!--<div item-right>
+          <ion-select [(ngModel)]="qty">
+            <ion-option>1</ion-option>
+            <ion-option>2</ion-option>
+            <ion-option>3</ion-option>
+            <ion-option>4</ion-option>
+            <ion-option>5</ion-option>
+            <ion-option>6</ion-option>
+            <ion-option>7</ion-option>
+            <ion-option>8</ion-option>
+            <ion-option>9</ion-option>
+            <ion-option>10</ion-option>
+          </ion-select>
+        </div>-->
+        <!--<ion-grid>
+          <ion-row>
+            <ion-col col-9>
+              {{i+1}} {{order.format}} |  {{order.text}}
+            </ion-col>
+            <ion-col col-3 item-right>
+              <ion-select [(ngModel)]="qty">
+                <ion-option>1</ion-option>
+                <ion-option>2</ion-option>
+                <ion-option>3</ion-option>
+                <ion-option>4</ion-option>
+                <ion-option>5</ion-option>
+                <ion-option>6</ion-option>
+                <ion-option>7</ion-option>
+                <ion-option>8</ion-option>
+                <ion-option>9</ion-option>
+                <ion-option>10</ion-option>
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-grid>-->
+        <div item-right>
+          <input ion-button type="number" min="1" [(ngModel)]="qty" (keyup)="valueChange()" style="width:45px"/>
+        </div>
+      </button>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+      <ion-item-options side="left">
+        <button ion-button color="danger">
+          <ion-icon name="delete"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+      <!--<ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Message
+        </button>
+        <button ion-button color="secondary">
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>-->
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
