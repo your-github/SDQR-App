@@ -11,7 +11,7 @@ export class HomePage {
     orderlists = [];
     qty = 1;
     disc = 0;
-
+    checkSale = false;
     constructor(public navCtrl: NavController, private qrcodeScanner: BarcodeScanner) {
 
     }
@@ -39,5 +39,8 @@ export class HomePage {
 
     discount(disc) {
         console.log(disc);
+    }
+    dosale(){
+        this.checkSale = true;
     }
 }

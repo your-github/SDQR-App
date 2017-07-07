@@ -7,45 +7,52 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-fab top right edge>
-    <button color="secondary" ion-fab (click)="qrScanner()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
-  <ion-list>
-    <ion-list-header>
-      <h1>ລາຍການສັ່ງຊື້</h1>
-    </ion-list-header>
 
-    <ion-item-sliding *ngFor="let order of orderlists; let i = index">
-      <ion-item padding>
-        <ion-label hidden>ຈຳນວນ</ion-label>
-        <ion-label>{{i+1}} &nbsp; {{order.format}} |  {{order.text}}</ion-label>
-        <ion-label>25000 kip</ion-label>
-        <ion-select [(ngModel)]="qty">
-          <ion-option value="1">1</ion-option>
-          <ion-option value="2">2</ion-option>
-          <ion-option value="3">3</ion-option>
-          <ion-option value="4">4</ion-option>
-          <ion-option value="5">5</ion-option>
-          <ion-option value="6">6</ion-option>
 
-        </ion-select>
-      </ion-item>
-      <ion-item-options side="left">
-        <button ion-button color="danger">
-          <ion-icon name="delete"></ion-icon>
-          Delete
-        </button>
-      </ion-item-options>
+<ion-content *ngIf="!checkSale">
+  <button ion-fab large color="secondary" text-center (click)="dosale()" >Sale</button>
+</ion-content>
 
-    </ion-item-sliding>
-  </ion-list>
-  <ion-card>
+  <ion-content *ngIf="checkSale">
+
+    <ion-fab top right edge>
+      <button color="secondary" ion-fab (click)="qrScanner()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+    <ion-list>
+      <ion-list-header text-center="">
+        <h1><b>ລາຍການສັ່ງຊື້</b></h1>
+      </ion-list-header>
+
+      <ion-item-sliding *ngFor="let order of orderlists; let i = index">
+        <ion-item padding>
+          <ion-label hidden>ຈຳນວນ</ion-label>
+          <ion-label>{{i+1}} &nbsp; {{order.format}} |  {{order.text}}</ion-label>
+          <ion-label>25000 kip</ion-label>
+          <ion-select [(ngModel)]="qty">
+            <ion-option value="1">1</ion-option>
+            <ion-option value="2">2</ion-option>
+            <ion-option value="3">3</ion-option>
+            <ion-option value="4">4</ion-option>
+            <ion-option value="5">5</ion-option>
+            <ion-option value="6">6</ion-option>
+
+          </ion-select>
+        </ion-item>
+        <ion-item-options side="left">
+          <button ion-button color="danger">
+            <ion-icon name="delete"></ion-icon>
+            Delete
+          </button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+    <ion-card>
       <ion-card-content>
         <ion-item-group>
-          <ion-item-divider ><h1><b>ລາຄາປຶ້ມ</b></h1></ion-item-divider>
+          <ion-item-divider ><h1><b>ລາຄາລວມ</b></h1></ion-item-divider>
           <ion-item padding text-start>
             <h2><b>250,000 ₭</b></h2>
           </ion-item>
@@ -67,27 +74,28 @@
         </ion-item-group>
 
         <ion-item-group>
-          <ion-item-divider><h1><b>ລວມເປັນເງິນທັງໝົດ</b></h1></ion-item-divider>
+          <ion-item-divider><h1><b>ລາຄາທີ່ຕ້ອງຈ່າຍ</b></h1></ion-item-divider>
           <ion-item padding text-end>
             <h1><b>250,000 ₭</b></h1>
           </ion-item>
         </ion-item-group>
-    </ion-card-content>
+      </ion-card-content>
 
-    <ion-grid>
-      <ion-row>
-        <ion-col col-6>
-          <button ion-button block large color="danger"><b>ຍົກເລີກ</b></button>
-        </ion-col>
-        <ion-col col-6>
-          <button ion-button block large color="secondary"><b>ຈ່າຍຊຳລະ</b></button>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <button ion-button block large color="danger"><b>ຍົກເລີກ</b></button>
+          </ion-col>
+          <ion-col col-6>
+            <button ion-button block large color="secondary"><b>ຕົກລົງ</b></button>
 
-        </ion-col>
+          </ion-col>
 
-      </ion-row>
-    </ion-grid>
+        </ion-row>
+      </ion-grid>
 
 
-</ion-card>
+    </ion-card>
 
-</ion-content>
+  </ion-content>
+
