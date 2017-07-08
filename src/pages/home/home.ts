@@ -136,15 +136,13 @@ export class HomePage {
 
   submitedSale(){
     /** All sale code logic on this fuction */
-    /*let toastSuccess = this.toastCtrl.create({
-
-     });*/
-    let alert = this.alertCtrl.create({
-      title:"Warning",
-      subTitle:"You are wrong on working",
-      buttons:['OK']
+    let successToast = this.toastCtrl.create({
+      message: 'Succesfully',
+      duration: 3000,
+      position: 'top'
     });
-    alert.present();
+    this.cancleOrder();
+    successToast.present();
   }
 
 }

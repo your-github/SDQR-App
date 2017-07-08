@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {UserProvider} from '../../providers/user/user';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
@@ -18,7 +18,8 @@ export class LoginPage {
     public navParams: NavParams,
     public userService: UserProvider,
     public formBuilder: FormBuilder,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
     this.fLogin = this.formBuilder.group({
       email: [
@@ -38,7 +39,13 @@ export class LoginPage {
 
   doLogin(){
     let loginWaiting = this.loadingCtrl.create({
+      spinner: 'dots',
       content:"Loging in..."
+    });
+    let failedToast = this.toastCtrl.create({
+      message: 'Login failed',
+      duration: 3000,
+      position: 'middle'
     });
     if(this.fLogin.valid){
       loginWaiting.present();
@@ -47,6 +54,7 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage);
       }).catch(() => {
         loginWaiting.dismiss();
+        failedToast.present();
         this.navCtrl.setRoot(LoginPage);
       })
     }
