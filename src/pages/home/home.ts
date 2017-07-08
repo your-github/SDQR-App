@@ -10,6 +10,8 @@ import {SaleProvider} from '../../providers/sale/sale';
 })
 export class HomePage {
 
+    stockList = [];
+
     orderlists = [];
     amounts: number[] = [];
     disc = 0;
@@ -38,13 +40,9 @@ export class HomePage {
             if ((success.text != '') || !success.cancelled) {
               let scanBook = JSON.parse(success.text);
               const id = this.secure.encrytionUser(scanBook.id);
-              console.log(id);
               this.saleService.getBook(id).subscribe(success => {
-                console.log(success);
-                console.log(success.quantity);
                 let stockBook = success;
-                console.log(stockBook);
-                if(stockBook.quantity > 0){
+                if(stockBook[9] > 0){
                   if(this.orderlists.length > 0){
                     for(let i=0 ; i < this.orderlists.length; i++){
                       if(this.orderlists[i].id = id){
@@ -55,7 +53,7 @@ export class HomePage {
                   }else {
                     let import_price = this.secure.decrytionNumber(scanBook.ip);
                     scanBook.id = id;
-                    scanBook.name = stockBook.bname;
+                    scanBook.name = stockBook[1];
                     scanBook.ip = import_price;
                     scanBook.amount = 1;
 
