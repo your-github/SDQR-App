@@ -36,31 +36,35 @@ export class HomePage {
         }
         this.qrcodeScanner.scan(option).then(success => {
             if ((success.text != '') || !success.cancelled) {
-              let scanBook = JSON.parse(success.text);
-              const id = this.secure.encrytionUser(scanBook.id);
-              /*this.saleService.getBook(id).subscribe(success => {
-                let stockBook = success;
-                if(stockBook.quantity > 0){
-                  if(this.orderlists.length > 0){
-                    for(let i=0 ; i < this.orderlists.length; i++){
-                      if(this.orderlists[i].id = id){
-                        this.orderlists[i].quantity = this.orderlists[i].quantity + 1;
-                        break;
+              try {
+                let scanBook = JSON.parse(success.text);
+                const id = this.secure.encrytionUser(scanBook.id);
+                this.saleService.getBook(id).subscribe(success => {
+                  let stockBook = success;
+                  if(stockBook.quantity > 0){
+                    if(this.orderlists.length > 0){
+                      for(let i=0 ; i < this.orderlists.length; i++){
+                        if(this.orderlists[i].id = id){
+                          this.orderlists[i].quantity = this.orderlists[i].quantity + 1;
+                          break;
+                        }
                       }
-                    }
-                  }else {*/
-                    let import_price = this.secure.decrytionNumber(scanBook.ip);
-                    scanBook.id = id;
-                    scanBook.name = 'New name';
-                    scanBook.ip = import_price;
-                    scanBook.amount = 1;
+                    }else {
+                      let import_price = this.secure.decrytionNumber(scanBook.ip);
+                      scanBook.id = id;
+                      scanBook.name = stockBook.bname;
+                      scanBook.ip = import_price;
+                      scanBook.amount = 1;
 
-                    /*store scan book to cart*/
-                    this.orderlists.push(scanBook);
+                      /*store scan book to cart*/
+                      this.orderlists.push(scanBook);
+                    }
                   }
-               /* }
-              });
-            }*/
+                });
+              }catch (e){
+                console.log(e);
+              }
+            }
         }).catch(error => {
             console.log(error);
         });
@@ -76,4 +80,8 @@ export class HomePage {
     dosale(){
         this.checkSale = true;
     }
+
+  deleteCurrentOrder(index){
+      this.orderlists.splice(index, 1);
+  }
 }

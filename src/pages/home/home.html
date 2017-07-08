@@ -28,17 +28,17 @@
         <h1><b>ລາຍການສັ່ງຊື້</b></h1>
       </ion-list-header>
 
-      <ion-item-sliding *ngFor="let order of orderlists; let i = index">
+      <ion-item-sliding *ngFor="let order of orderlists, let i = index">
         <ion-item padding>
           <ion-label hidden>ຈຳນວນ</ion-label>
           <ion-label>{{i+1}} {{order.name}}</ion-label>
           <ion-label>{{order.price}}</ion-label>
-          <ion-select #am [(ngModel)]="order.amount" (ionChange)="changeAmount(am, i)">
-            <ion-option value="{{amount}}" *ngFor="let amount of amounts">amount</ion-option>
+          <ion-select [(ngModel)]="order.amount">
+            <ion-option value="{{amount}}" *ngFor="let amount of amounts">{{amount}}</ion-option>
           </ion-select>
         </ion-item>
         <ion-item-options side="left">
-          <button ion-button color="danger">
+          <button ion-button color="danger" (click)="deleteCurrentOrder(i)">
             <ion-icon name="delete"></ion-icon>
             Delete
           </button>
