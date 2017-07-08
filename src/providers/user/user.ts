@@ -14,10 +14,10 @@ export class UserProvider {
   db: FirebaseListObservable<any>;
 
   constructor(public http: Http, public firebasedb: AngularFireDatabase, public  secure: edSecure, public Auth: AngularFireAuth) {
-    /*if (localStorage.getItem('sdqrusersession')) {
+    if (localStorage.getItem('sdqrusersession')) {
       const u = this.secure.encrytionUser(localStorage.getItem('sdqrusersession'));
       this.db = firebasedb.list('/dbook/users/' + u);
-    }*/
+    }
     this.user = Auth.authState;
   }
 
