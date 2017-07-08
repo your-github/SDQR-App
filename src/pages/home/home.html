@@ -8,18 +8,21 @@
 </ion-header>
 
 
+  <ion-content>
 
-<ion-content *ngIf="!checkSale">
-  <button ion-fab large color="secondary" text-center (click)="dosale()" >Sale</button>
-</ion-content>
+<ion-fab middle center *ngIf="!checkSale" >
+  <button ion-fab color="secondary" (click)="dosale()"><ion-icon class="basketbtn"  name="basket"></ion-icon></button>
+</ion-fab>
 
-  <ion-content *ngIf="checkSale">
 
-    <ion-fab top right edge>
-      <button color="secondary" ion-fab (click)="qrScanner()">
+    <ion-fab top right edge *ngIf="checkSale">
+      <button color="secondary" ion-fab mini (click)="qrScanner()">
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-fab>
+
+    <ion-item-group *ngIf="checkSale">
+
     <ion-list>
       <ion-list-header text-center="">
         <h1><b>ລາຍການສັ່ງຊື້</b></h1>
@@ -96,6 +99,6 @@
 
 
     </ion-card>
-
+</ion-item-group>
   </ion-content>
 
