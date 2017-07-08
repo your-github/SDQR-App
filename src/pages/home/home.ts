@@ -39,7 +39,9 @@ export class HomePage {
               try {
                 let scanBook = JSON.parse(success.text);
                 const id = this.secure.encrytionUser(scanBook.id);
+                console.log(id);
                 this.saleService.getBook(id).subscribe(success => {
+                  console.log(success);
                   let stockBook = success;
                   if(stockBook.quantity > 0){
                     if(this.orderlists.length > 0){
