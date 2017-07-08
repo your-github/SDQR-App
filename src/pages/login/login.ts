@@ -19,9 +19,6 @@ export class LoginPage {
     public userService: UserProvider,
     public formBuilder: FormBuilder
   ) {
-  }
-
-  ionViewDidLoad() {
     this.fLogin = this.formBuilder.group({
       email: [
         '',
@@ -34,11 +31,17 @@ export class LoginPage {
     })
   }
 
+  ionViewDidLoad() {
+
+  }
+
   doLogin(){
-    this.userService.login(this.fLogin.value).then(() => {
-      this.navCtrl.setRoot(HomePage);
-    }).catch(() => {
-      this.navCtrl.setRoot(LoginPage);
-    })
+    if(this.fLogin.valid){
+      this.userService.login(this.fLogin.value).then(() => {
+        this.navCtrl.setRoot(HomePage);
+      }).catch(() => {
+        this.navCtrl.setRoot(LoginPage);
+      })
+    }
   }
 }
