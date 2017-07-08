@@ -19,7 +19,7 @@ export class MyApp {
 
   pages: Array<{title: string, component: any}>;
   db: FirebaseListObservable<any>;
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,private firebasedb: AngularFireDatabase) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public firebasedb: AngularFireDatabase) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
