@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HomePage} from "../home/home";
+import {UserProvider} from '../../providers/user/user';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -15,13 +11,34 @@ import {HomePage} from "../home/home";
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  fLogin: FormGroup;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public userService: UserProvider,
+    public formBuilder: FormBuilder
+  ) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    this.fLogin = this.formBuilder.group({
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')
+        ]
+      ],
+      password: ['', Validators.required]
+    })
   }
+
   doLogin(){
-    this.navCtrl.setRoot(HomePage);
+    this.userService.login(this.fLogin.value).then(() => {
+      this.navCtrl.setRoot(HomePage);
+    }).catch(() => {
+      this.navCtrl.setRoot(LoginPage);
+    })
   }
 }

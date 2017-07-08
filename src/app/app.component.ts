@@ -14,6 +14,8 @@ import { LoginPage} from '../pages/login/login';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  userData: {email: string, fname: string, lname: string, upic: string};
+
   rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
