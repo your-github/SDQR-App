@@ -49,7 +49,7 @@ export class HomePage {
                   if(this.orderlists.length > 0){
                     for(let i=0 ; i < this.orderlists.length; i++){
                       if(this.orderlists[i].id = id){
-                        this.orderlists[i].quantity = this.orderlists[i].quantity + 1;
+                        this.orderlists[i].amount = this.orderlists[i].amount + 1;
                         break;
                       }
                     }
@@ -72,7 +72,7 @@ export class HomePage {
     }
 
     changeAmount(am, index) {
-      console.log(this.orderlists[index]);
+      this.orderlists[index].amount = am.value;
     }
 
     discount(disc) {
@@ -85,4 +85,5 @@ export class HomePage {
   deleteCurrentOrder(index){
       this.orderlists.splice(index, 1);
   }
+
 }
