@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {NavController, AlertController} from 'ionic-angular';
 import {BarcodeScanner, BarcodeScannerOptions} from '@ionic-native/barcode-scanner';
+import {edSecure} from '../../protection/secure';
 
 @Component({
     selector: 'page-home',
@@ -12,7 +13,7 @@ export class HomePage {
     qty = 1;
     disc = 0;
     checkSale = false;
-    constructor(public navCtrl: NavController, private qrcodeScanner: BarcodeScanner) {
+    constructor(public navCtrl: NavController, private qrcodeScanner: BarcodeScanner,public  secure: edSecure, public alertCtrl: AlertController) {
 
     }
 
@@ -25,8 +26,9 @@ export class HomePage {
         }
         this.qrcodeScanner.scan(option).then(success => {
             if ((success.text != '') || !success.cancelled) {
-                this.orderlists.push(success);
-                console.log(success);
+                const book = JSON.parse(success.text);
+                this.orderlists.push(book);
+              /*console.log(success);*/
             }
         }).catch(error => {
             console.log(error);

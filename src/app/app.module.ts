@@ -22,6 +22,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserProvider } from '../providers/user/user';
 import { SaleProvider } from '../providers/sale/sale';
 
+import {edSecure} from '../protection/secure'
+
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyDKfhalS9iXAH1Lqr_Z7HcoYF0mHHmHfd0',
@@ -59,7 +61,8 @@ export const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
     UserProvider,
-    SaleProvider
+    SaleProvider,
+    edSecure
   ]
 })
 export class AppModule {}

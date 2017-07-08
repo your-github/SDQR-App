@@ -7,7 +7,6 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage} from '../pages/login/login';
 
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,8 +17,7 @@ export class MyApp {
   rootPage: any = LoginPage;
 
   pages: Array<{title: string, component: any}>;
-  db: FirebaseListObservable<any>;
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public firebasedb: AngularFireDatabase) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -27,10 +25,6 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'About', component: ListPage }
     ];
-
-    this.db = firebasedb.list('/dbook/books');
-
-    console.log(this.db);
   }
 
   initializeApp() {
