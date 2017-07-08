@@ -49,7 +49,7 @@ export class HomePage {
                   if(this.orderlists.length > 0){
                     for(let i=0 ; i < this.orderlists.length; i++){
                       if(this.orderlists[i].id = id){
-                        this.orderlists[i].amount = this.orderlists[i].amount + 1;
+                        this.orderlists[i].amount = Number.parseInt(this.orderlists[i].amount) + 1;
                         break;
                       }
                     }
