@@ -19,6 +19,8 @@ import {LoginPage} from '../pages/login/login';
 /***  IONIC Native Tool*/
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { UserProvider } from '../providers/user/user';
+import { SaleProvider } from '../providers/sale/sale';
 
 
 export const firebaseConfig = {
@@ -55,7 +57,9 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    BarcodeScanner
+    BarcodeScanner,
+    UserProvider,
+    SaleProvider
   ]
 })
 export class AppModule {}
