@@ -31,16 +31,10 @@
       <ion-item-sliding *ngFor="let order of orderlists; let i = index">
         <ion-item padding>
           <ion-label hidden>ຈຳນວນ</ion-label>
-          <ion-label>{{i+1}} &nbsp; {{order.ip}} |  {{order.price}}</ion-label>
-          <ion-label>25000 kip</ion-label>
-          <ion-select [(ngModel)]="qty">
-            <ion-option value="1">1</ion-option>
-            <ion-option value="2">2</ion-option>
-            <ion-option value="3">3</ion-option>
-            <ion-option value="4">4</ion-option>
-            <ion-option value="5">5</ion-option>
-            <ion-option value="6">6</ion-option>
-
+          <ion-label>{{i+1}} {{order.name}}</ion-label>
+          <ion-label>{{order.price}}</ion-label>
+          <ion-select #am [(ngModel)]="order.amount" (ionChange)="changeAmount(am, i)">
+            <ion-option value="{{amount}}" *ngFor="let amount of amounts">amount</ion-option>
           </ion-select>
         </ion-item>
         <ion-item-options side="left">
