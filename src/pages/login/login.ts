@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {UserProvider} from '../../providers/user/user';
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
@@ -17,7 +17,8 @@ export class LoginPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public userService: UserProvider,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public loadingCtrl: LoadingController
   ) {
     this.fLogin = this.formBuilder.group({
       email: [
@@ -36,10 +37,16 @@ export class LoginPage {
   }
 
   doLogin(){
+    let loginWaiting = this.loadingCtrl.create({
+      content:"Loging in..."
+    });
     if(this.fLogin.valid){
+      loginWaiting.present();
       this.userService.login(this.fLogin.value).then(() => {
+        loginWaiting.dismiss();
         this.navCtrl.setRoot(HomePage);
       }).catch(() => {
+        loginWaiting.dismiss();
         this.navCtrl.setRoot(LoginPage);
       })
     }

@@ -33,7 +33,7 @@
           <ion-label hidden>ຈຳນວນ</ion-label>
           <ion-label>{{i+1}} {{order.name}}</ion-label>
           <ion-label>{{order.price}}</ion-label>
-          <ion-select [(ngModel)]="orderlists[i].amount">
+          <ion-select [(ngModel)]="orderlists[i].amount" (ionChange)="sumOrderList()">
             <ion-option value="{{amount}}" *ngFor="let amount of amounts">{{amount}}</ion-option>
           </ion-select>
         </ion-item>
@@ -60,7 +60,7 @@
 
           <ion-item color="danger" margin-bottom="1">
             <ion-label color="light"><b>ສ່ວນຫຼຸດ</b></ion-label>
-            <ion-select [(ngModel)]="disc" (change)="discount(disc)">
+            <ion-select [(ngModel)]="discount" (ionChange)="paymentCalculation()">
               <ion-option value="0">0%</ion-option>
               <ion-option value="0.05">5%</ion-option>
               <ion-option value="0.1">10%</ion-option>
@@ -82,10 +82,10 @@
       <ion-grid>
         <ion-row>
           <ion-col col-6>
-            <button ion-button block large color="danger"><b>ຍົກເລີກ</b></button>
+            <button ion-button block large color="danger" (click)="cancleOrder()"><b>ຍົກເລີກ</b></button>
           </ion-col>
           <ion-col col-6>
-            <button ion-button block large color="secondary"><b>ຕົກລົງ</b></button>
+            <button ion-button block large color="secondary" (click)="submitSale()"><b>ຕົກລົງ</b></button>
 
           </ion-col>
 

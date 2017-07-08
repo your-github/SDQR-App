@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController} from 'ionic-angular';
+import {NavController, AlertController, ToastController} from 'ionic-angular';
 import {BarcodeScanner, BarcodeScannerOptions} from '@ionic-native/barcode-scanner';
 import {edSecure} from '../../protection/secure';
 import {SaleProvider} from '../../providers/sale/sale';
@@ -14,15 +14,22 @@ export class HomePage {
 
     orderlists = [];
     amounts: number[] = [];
-    disc = 0;
     checkSale = false;
+
+    /** calculate property */
+    orderSum: number = 0;
+    payment: number = 0;
+
+    /** discount property */
+    discount: number = 0;
 
     constructor(
       public navCtrl: NavController,
       private qrcodeScanner: BarcodeScanner,
       public  secure: edSecure,
       public alertCtrl: AlertController,
-      public saleService: SaleProvider
+      public saleService: SaleProvider,
+      public toastCtrl: ToastController
     ) {
       for(let i = 1; i < 31; i++){
         this.amounts[i - 1] = i;
@@ -63,6 +70,7 @@ export class HomePage {
                     /*store scan book to cart*/
                     this.orderlists.push(scanBook);
                   }
+                  this.sumOrderList();
                 }
               });
             }
@@ -71,19 +79,72 @@ export class HomePage {
         });
     }
 
-    changeAmount(am, index) {
-      this.orderlists[index].amount = am.value;
-    }
-
-    discount(disc) {
-        console.log(disc);
-    }
     dosale(){
-        this.checkSale = true;
+      this.checkSale = true;
+      this.qrScanner();
     }
 
   deleteCurrentOrder(index){
       this.orderlists.splice(index, 1);
+  }
+
+  cancleOrder(){
+    this.orderlists = [];
+    this.orderSum = 0;
+    this.payment = 0;
+    this.discount = 0;
+    this.checkSale = false;
+  }
+
+  sumOrderList(){
+    if(this.orderlists.length > 0){
+      this.orderSum = 0;
+      for(let i = 0; i < this.orderlists.length; i++){
+        this.orderSum += Number.parseInt(this.orderlists[i].amount) + Number.parseInt(this.orderlists[i].price);
+      }
+      this.paymentCalculation();
+    }
+  }
+
+  paymentCalculation(){
+    if(this.orderSum > 0){
+      this.payment = this.orderSum - (this.orderSum * this.discount);
+    }
+  }
+
+  submitSale(){
+    let confirm = this.alertCtrl.create({
+      title:"Sale",
+      message:"Are you sure?",
+      buttons:[
+        {
+          text:"Cancle",
+          handler:()=>{
+          }
+        },
+        {
+          text:"OK",
+          handler:()=>{
+            /** Sale code logic on fuction bellow*/
+            this.submitedSale();
+          }
+        }
+      ]
+    })
+    confirm.present();
+  }
+
+  submitedSale(){
+    /** All sale code logic on this fuction */
+    /*let toastSuccess = this.toastCtrl.create({
+
+     });*/
+    let alert = this.alertCtrl.create({
+      title:"Warning",
+      subTitle:"You are wrong on working",
+      buttons:['OK']
+    });
+    alert.present();
   }
 
 }
