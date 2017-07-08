@@ -19,6 +19,7 @@ export class HomePage {
     /** calculate property */
     orderSum: number = 0;
     payment: number = 0;
+    totalAmountSale: number = 0;
 
     /** discount property */
     discount: number = 0;
@@ -44,7 +45,9 @@ export class HomePage {
             'formats': 'QR_CODE'
         }
         this.qrcodeScanner.scan(option).then(success => {
-            if ((success.text != '') || !success.cancelled) {
+          this.checkSale = true;
+          if ((success.text != '') || !success.cancelled) {
+            try {
               let scanBook = JSON.parse(success.text);
               const id = this.secure.encrytionUser(scanBook.id);
               this.saleService.getBook(id).subscribe(success => {
@@ -73,23 +76,43 @@ export class HomePage {
                   this.sumOrderList();
                 }
               });
+            }catch (e){
+              if(this.orderlists.length < 1){
+                this.checkSale = false;
+              }
+              console.log(e);
             }
+
+          }else {
+            if(this.orderlists.length < 1){
+              this.checkSale = false;
+            }
+          }
         }).catch(error => {
             console.log(error);
         });
     }
 
     dosale(){
-      this.checkSale = true;
       this.qrScanner();
     }
 
   deleteCurrentOrder(index){
       this.orderlists.splice(index, 1);
+      if(this.orderlists.length < 1){
+        this.totalAmountSale = 0
+        this.orderSum = 0;
+        this.payment = 0;
+        this.discount = 0;
+        this.checkSale = false;
+      }else{
+        this.sumOrderList();
+      }
   }
 
   cancleOrder(){
     this.orderlists = [];
+    this.totalAmountSale = 0;
     this.orderSum = 0;
     this.payment = 0;
     this.discount = 0;
@@ -98,9 +121,11 @@ export class HomePage {
 
   sumOrderList(){
     if(this.orderlists.length > 0){
+      this.totalAmountSale = 0;
       this.orderSum = 0;
       for(let i = 0; i < this.orderlists.length; i++){
-        this.orderSum += Number.parseInt(this.orderlists[i].amount) + Number.parseInt(this.orderlists[i].price);
+        this.totalAmountSale += Number.parseFloat(this.orderlists[i].amount);
+        this.orderSum += Number.parseFloat(this.orderlists[i].amount) * Number.parseFloat(this.orderlists[i].price);
       }
       this.paymentCalculation();
     }
@@ -136,13 +161,16 @@ export class HomePage {
 
   submitedSale(){
     /** All sale code logic on this fuction */
+    console.log(this.orderlists);
     let successToast = this.toastCtrl.create({
       message: 'Succesfully',
       duration: 3000,
       position: 'top'
     });
-    this.cancleOrder();
     successToast.present();
+    successToast.onDidDismiss(() => {
+      this.cancleOrder();
+    });
   }
 
 }
