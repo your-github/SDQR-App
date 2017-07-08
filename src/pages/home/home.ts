@@ -42,7 +42,10 @@ export class HomePage {
               const id = this.secure.encrytionUser(scanBook.id);
               this.saleService.getBook(id).subscribe(success => {
                 let stockBook = success;
-                if(stockBook[9] > 0){
+                console.log(success);
+
+                console.log(stockBook.quantity);
+                if(stockBook.quantity > 0){
                   if(this.orderlists.length > 0){
                     for(let i=0 ; i < this.orderlists.length; i++){
                       if(this.orderlists[i].id = id){
@@ -53,7 +56,7 @@ export class HomePage {
                   }else {
                     let import_price = this.secure.decrytionNumber(scanBook.ip);
                     scanBook.id = id;
-                    scanBook.name = stockBook[1];
+                    scanBook.name = stockBook.bname;
                     scanBook.ip = import_price;
                     scanBook.amount = 1;
 
