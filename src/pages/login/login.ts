@@ -54,7 +54,9 @@ export class LoginPage {
         this.navCtrl.setRoot(HomePage);
       }).catch(() => {
         loginWaiting.dismiss();
-        failedToast.present();
+        loginWaiting.onDidDismiss(() => {
+          failedToast.present();
+        });
         this.navCtrl.setRoot(LoginPage);
       })
     }
