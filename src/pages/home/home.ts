@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, AlertController, ToastController} from 'ionic-angular';
+import {NavController, AlertController, ToastController, LoadingController} from 'ionic-angular';
 import {BarcodeScanner, BarcodeScannerOptions} from '@ionic-native/barcode-scanner';
 import {edSecure} from '../../protection/secure';
 import {SaleProvider} from '../../providers/sale/sale';
@@ -30,6 +30,7 @@ export class HomePage {
       public  secure: edSecure,
       public alertCtrl: AlertController,
       public saleService: SaleProvider,
+      public loadingCtrl: LoadingController,
       public toastCtrl: ToastController
     ) {
       for(let i = 1; i < 31; i++){
@@ -58,7 +59,7 @@ export class HomePage {
                 if(stockBook.quantity > 0){
                   if(this.orderlists.length > 0){
                     for(let i=0 ; i < this.orderlists.length; i++){
-                      if(this.orderlists[i].id = id){
+                      if(this.orderlists[i].id == id){
                         this.orderlists[i].amount = Number.parseInt(this.orderlists[i].amount) + 1;
                         break;
                       }
@@ -161,16 +162,21 @@ export class HomePage {
 
   submitedSale(){
     /** All sale code logic on this fuction */
+    let loginWaiting = this.loadingCtrl.create({
+      spinner: 'dots',
+      content:"Saving..."
+    });
+
     console.log(this.orderlists);
     let successToast = this.toastCtrl.create({
       message: 'Succesfully',
       duration: 3000,
       position: 'top'
     });
-    successToast.present();
+    /*successToast.present();
     successToast.onDidDismiss(() => {
       this.cancleOrder();
-    });
+    });*/
   }
 
 }
