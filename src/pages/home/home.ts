@@ -71,9 +71,8 @@ export class HomePage  implements OnInit{
           const id = this.secure.encrytionUser(scanBook.id);                              //Decryption book key (Book id)
 
           /** Get book details from firebase database */
-          this.saleService.getBook(id).subscribe(success => {
-            let stockBook = success;                                                      // Declare new valiable to store all respone data
-
+          this.saleService.getBook(id).then(success => {
+            let stockBook = success;
             /** If quantity in stock are more than 0 do order else do check if exist book on the order list delete it */
             if (Number.parseInt(stockBook.quantity) > 0) {
               this.checkSale = true;                                                //Set checkSale property to true to show order list template
@@ -214,7 +213,7 @@ export class HomePage  implements OnInit{
     }else {
 
       /** Get book details from database of current amount change */
-      this.saleService.getBook(this.orderlists[index].id).subscribe(success => {
+      this.saleService.getBook(this.orderlists[index].id).then(success => {
       let stockBook = success;
 
       /** If quantity is more than 0 do right logic else delete it from the order list */
@@ -312,6 +311,7 @@ export class HomePage  implements OnInit{
   submitedSale() {
     let saleCount = 0;                               //Set sale count to check when save all order list done
 
+    let responeMessage = 'Successfully';
     /** Set waiting option when click Ok button of confirm dialog */
     let saveWaiting = this.loadingCtrl.create({
       spinner: 'dots',
@@ -323,68 +323,70 @@ export class HomePage  implements OnInit{
 
     /** Set successfully toast option */
     let successToast = this.toastCtrl.create({
-      message: 'Succesfully',
+      message: responeMessage,
       duration: 3000,
       position: 'top'
     });
     successToast.onDidDismiss( () => {
       this.cancleOrder();
     })
-
-    /** Precent the waiting dialog */
     saveWaiting.present();
+    new Promise((resolve, reject) => {
+      const sDateTime = new Date();
+      const user = this.secure.encrytionUser(localStorage.getItem('sdqrusersession'));
 
-    /*this.orderlists.map(curOrder => {
-      console.log(curOrder)
-    })*/
-    const dateTime = new Date();
-    this.orderlists.forEach(currentOrder => {
-      console.log(dateTime);
-      const saleList = {
-        id: currentOrder.id,
-        name: currentOrder.name,
-        iprice: currentOrder.ip,
-        eprice: currentOrder.price,
-        amount: currentOrder.amount,
-        discount: this.discount,
-        total: Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) - Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) * this.discount,
-        saleDate: dateTime
-      }
-      console.log(saleList);
-      saleCount += 1;
-      /*this.saleService.getBook(currentOrder.id).subscribe(success => {
-        let stockBook = success;
-        if (Number.parseInt(stockBook.quantity) > 0) {
-          const updateQuantity = stockBook.quantity - Number.parseInt(currentOrder.amount)
-          if (updateQuantity < 0) {
-            this.saleService.updateStock(currentOrder.id, {quatity: updateQuantity}).then(() => {
-              const saleList = {
-                id: currentOrder.id,
-                name: currentOrder.name,
-                iprice: currentOrder.ip,
-                eprice: currentOrder.price,
-                amount: currentOrder.amount,
-                discount: this.discount,
-                total: Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) - Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) * this.discount,
-                saleDate: dateTime
-              }
-              this.saleService.saleBook(saleList).then(() => {
-                saleCount += 1;
+      let newlist = new Array();
+      newlist = this.orderlists;
+      newlist.map(currentOrder => {
+
+        this.saleService.getBook(currentOrder.id).then(success => {
+          let stockBook = success;
+          if (Number.parseInt(stockBook.quantity) > 0) {
+            const updateQuantity = stockBook.quantity - Number.parseInt(currentOrder.amount)
+            if (updateQuantity >= 0) {
+              this.saleService.updateStock(currentOrder.id, updateQuantity).then(() => {
+                const saleList = {
+                  usertk: user,
+                  id: currentOrder.id,
+                  name: currentOrder.name,
+                  iprice: currentOrder.ip,
+                  eprice: currentOrder.price,
+                  amount: currentOrder.amount,
+                  discount: this.discount,
+                  sDate: sDateTime,
+                  total: Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) - Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) * this.discount
+                }
+                this.saleService.saleBook(saleList).then(() => {
+                  saleCount += 1;
+                  if(saleCount == this.orderlists.length){
+                    resolve(true);
+                  }
+                }).catch(() => {
+                  reject(false);
+                });
+              }).catch(() => {
+                reject(false);
               });
-            });
+            }
           }
-        }
-      });*/
-    });
+        }, () => {
+          reject(false);
+        });
 
-    if(saleCount > 0){
+      });
+    }).then((success) => {
       saveWaiting.dismiss();
-    }
-    // this.saleService.updateStock()
-    /*successToast.present();
-    successToast.onDidDismiss(() => {
-      this.cancleOrder();
-    });*/
+    }).catch(error => {
+      responeMessage = 'Failed saving sale list'
+      saveWaiting.dismiss();
+    })
+    /*if(saleCount > 0){
+      saveWaiting.dismiss();
+    }else {
+      responeMessage = 'Failed to save'
+      saveWaiting.dismiss();
+    }*/
   }
+
 
 }

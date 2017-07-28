@@ -10,8 +10,14 @@ export class SaleProvider {
     constructor(public http: Http, public firebasedb: AngularFireDatabase) {
     }
 
-    getBook(key) {
-        return this.firebasedb.object('/dbook/books/' + key);
+    getBook(key): any {
+        return new Promise((resolve, reject) => {
+          this.firebasedb.object('/dbook/books/' + key).subscribe(success => {
+            resolve(success);
+          }, err => {
+            reject(err);
+          });
+        });
     }
 
     updateStock(key, quantity) {
