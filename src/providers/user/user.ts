@@ -14,11 +14,26 @@ export class UserProvider {
   db: FirebaseListObservable<any>;
 
   constructor(public http: Http, public firebasedb: AngularFireDatabase, public  secure: edSecure, public Auth: AngularFireAuth) {
-    if (localStorage.getItem('sdqrusersession')) {
-      const u = this.secure.encrytionUser(localStorage.getItem('sdqrusersession'));
-      this.db = firebasedb.list('/dbook/users/' + u);
-    }
     this.user = Auth.authState;
+  }
+
+  getUser() {
+    return new Promise((resolve, reject)=>{
+      if (localStorage.getItem('sdqrusersession')) {
+        const u = this.secure.encrytionUser(localStorage.getItem('sdqrusersession'));
+        this.db = this.firebasedb.list('/dbook/users/' + u);
+        this.db.subscribe((success) => {
+          resolve(success[0]);
+        }, err => {
+          reject(err);
+        })
+        //console.log(this.db);
+
+      }
+      else {
+        reject(false);
+      }
+    });
   }
 
   login(user: any) {
@@ -37,6 +52,15 @@ export class UserProvider {
     })
   }
 
-
+  logout(){
+    return new Promise((resolve, reject) => {
+      this.Auth.auth.signOut().then(() => {
+        localStorage.removeItem('sdqrusersession');
+        resolve(true);
+      }).catch(() => {
+        reject(false);
+      })
+    });
+  }
 
 }

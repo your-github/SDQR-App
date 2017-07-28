@@ -9,10 +9,10 @@
     <ion-list>
         <ion-item>
         <ion-thumbnail item-start>
-          <img src="http://via.placeholder.com/100x100">
+          <img *ngIf="userDetail?.upic" [src]="userDetail?.upic">
         </ion-thumbnail>
-        <h2>Mr.Kokoro Yukishima</h2>
-        <button ion-button round><ion-icon name="exit"></ion-icon>Logout</button>
+        <h2>{{userDetail?.fname}} {{userDetail?.lname}}</h2>
+        <button menuClose ion-button round (click)="doLogout()"><ion-icon name="exit"></ion-icon>Logout</button>
       </ion-item>
 
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">

@@ -34,7 +34,6 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-
   }
 
   doLogin(){
@@ -49,7 +48,7 @@ export class LoginPage {
     });
     if(this.fLogin.valid){
       loginWaiting.present();
-      this.userService.login(this.fLogin.value).then(() => {
+      this.userService.login(this.fLogin.value).then((success) => {
         loginWaiting.dismiss();
         this.navCtrl.setRoot(HomePage);
       }).catch(() => {
