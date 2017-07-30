@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events } from 'ionic-angular';
+import {Nav, Platform, Events, App} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -27,7 +27,8 @@ export class MyApp{
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public events: Events,
-    public userService: UserProvider
+    public userService: UserProvider,
+    public app: App
   ) {
     this.initializeApp();
 
@@ -65,7 +66,8 @@ export class MyApp{
 
   doLogout(){
     this.userService.logout().then(()=>{
-      this.rootPage = LoginPage;
+      const root = this.app.getRootNav();
+      root.setRoot(LoginPage);
     })
   }
 

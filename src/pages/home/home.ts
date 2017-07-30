@@ -353,14 +353,14 @@ export class HomePage  implements OnInit{
                   eprice: Number.parseInt(currentOrder.price),
                   amount: Number.parseInt(currentOrder.amount),
                   discount: this.discount,
-                  sDate: sDateTime.getFullYear() + '-' + sDateTime.getMonth() + '-' + sDateTime.getDate(),
+                  sDate: sDateTime.getFullYear() + '-' + (sDateTime.getMonth() + 1) + '-' + sDateTime.getDate(),
                   principle: principle,
                   total: total,
                   profit: total - principle
                 }
                 this.saleService.saleBook(saleList).then(() => {
                   saleCount += 1;
-                  if(saleCount == this.orderlists.length){
+                  if(saleCount == newlist.length){
                     resolve(true);
                   }
                 }).catch(() => {
