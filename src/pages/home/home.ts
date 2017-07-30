@@ -352,7 +352,7 @@ export class HomePage  implements OnInit{
                   iprice: Number.parseInt(currentOrder.ip),
                   eprice: Number.parseInt(currentOrder.price),
                   amount: Number.parseInt(currentOrder.amount),
-                  discount: this.discount,
+                  discount: Number.parseFloat(this.discount.toString()),
                   sDate: sDateTime.getFullYear() + '-' + (sDateTime.getMonth() + 1) + '-' + sDateTime.getDate(),
                   principle: principle,
                   total: total,
