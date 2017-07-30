@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavController, AlertController, ToastController, LoadingController, Events} from 'ionic-angular';
 import {BarcodeScanner, BarcodeScannerOptions} from '@ionic-native/barcode-scanner';
-import {edSecure} from '../../protection/secure';
+import {edSecure, roundNumber} from '../../protection/secure';
 import {SaleProvider} from '../../providers/sale/sale';
 
 @Component({
@@ -196,13 +196,11 @@ export class HomePage  implements OnInit{
 
   /** save current amount of books to a property when clicking on a amount input of books */
   saveCurrentAmount(index) {
-    this.currentAmount = this.orderlists[index].amount
-    console.log(this.currentAmount);
+    this.currentAmount = this.orderlists[index].amount;
   }
 
   /** check current amount of books method*/
   checkAmount(index) {
-
     /**
      * if the change of amount is from scanning don't do anything else check enough quantity from store
      * (If part is amount change from scanning and Else part is amount change from amount input)
@@ -272,7 +270,7 @@ export class HomePage  implements OnInit{
   /** Calculation payment method */
   paymentCalculation() {
     if (this.orderSum > 0) {
-      this.payment = this.orderSum - (this.orderSum * this.discount);
+      this.payment = roundNumber.roundPrice((this.orderSum - (this.orderSum * this.discount)));
     }
   }
 
@@ -345,16 +343,20 @@ export class HomePage  implements OnInit{
             const updateQuantity = stockBook.quantity - Number.parseInt(currentOrder.amount)
             if (updateQuantity >= 0) {
               this.saleService.updateStock(currentOrder.id, updateQuantity).then(() => {
+                const total = roundNumber.roundPrice((Number.parseFloat(currentOrder.price) * Number.parseInt(currentOrder.amount) - Number.parseFloat(currentOrder.price) * Number.parseInt(currentOrder.amount) * this.discount));
+                const principle = Number.parseFloat(currentOrder.ip) * Number.parseInt(currentOrder.amount);
                 const saleList = {
                   usertk: user,
                   id: currentOrder.id,
                   name: currentOrder.name,
-                  iprice: currentOrder.ip,
-                  eprice: currentOrder.price,
-                  amount: currentOrder.amount,
+                  iprice: Number.parseInt(currentOrder.ip),
+                  eprice: Number.parseInt(currentOrder.price),
+                  amount: Number.parseInt(currentOrder.amount),
                   discount: this.discount,
-                  sDate: sDateTime,
-                  total: Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) - Number.parseFloat(currentOrder.price) * Number.parseFloat(currentOrder.amount) * this.discount
+                  sDate: sDateTime.getFullYear() + '-' + sDateTime.getMonth() + '-' + sDateTime.getDate(),
+                  principle: principle,
+                  total: total,
+                  profit: total - principle
                 }
                 this.saleService.saleBook(saleList).then(() => {
                   saleCount += 1;
@@ -379,14 +381,7 @@ export class HomePage  implements OnInit{
     }).catch(error => {
       responeMessage = 'Failed saving sale list'
       saveWaiting.dismiss();
-    })
-    /*if(saleCount > 0){
-      saveWaiting.dismiss();
-    }else {
-      responeMessage = 'Failed to save'
-      saveWaiting.dismiss();
-    }*/
+    });
   }
-
 
 }
