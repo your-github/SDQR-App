@@ -334,9 +334,8 @@ export class HomePage  implements OnInit{
       const user = this.secure.encrytionUser(localStorage.getItem('sdqrusersession'));
 
       let newlist = new Array();
-      newlist = this.orderlists;
+      newlist = this.orderlists.slice(0);
       newlist.map(currentOrder => {
-
         this.saleService.getBook(currentOrder.id).then(success => {
           let stockBook = success;
           if (Number.parseInt(stockBook.quantity) > 0) {
@@ -353,7 +352,7 @@ export class HomePage  implements OnInit{
                   eprice: Number.parseInt(currentOrder.price),
                   amount: Number.parseInt(currentOrder.amount),
                   discount: Number.parseFloat(this.discount.toString()),
-                  sDate: sDateTime.getFullYear() + '-' + (sDateTime.getMonth() + 1) + '-' + sDateTime.getDate(),
+                  sDate: sDateTime.getFullYear() + '-' + (sDateTime.getMonth() + 1) + '-' + sDateTime.getDate() + ' ' + sDateTime.getHours() + ':' + sDateTime.getMinutes() + ':' + sDateTime.getSeconds(),
                   principle: principle,
                   total: total,
                   profit: total - principle
