@@ -24,6 +24,9 @@ export class HomePage  implements OnInit{
   currentAmount: number = 0;                  // store current amount when click on amount input to change amount
   checkScan = false;                          // Check right logic for scan to change amount and click on amount input to change amount
 
+  recieveMoney: number = 0;                       // Recieve Money
+  returnMoney: number = 0;                    // Return Money
+
   constructor(
     public navCtrl: NavController,
     private qrcodeScanner: BarcodeScanner,
@@ -381,6 +384,15 @@ export class HomePage  implements OnInit{
       responeMessage = 'Failed saving sale list'
       saveWaiting.dismiss();
     });
+  }
+
+  /**Recieve and Return money*/
+  recievemoneyEvt(){
+    if(this.recieveMoney > this.payment){
+        this.returnMoney = this.recieveMoney - this.payment;
+    }else {
+        this.returnMoney = 0;
+    }
   }
 
 }

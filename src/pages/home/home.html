@@ -32,7 +32,7 @@
         <ion-item padding>
           <ion-label hidden>ຈຳນວນ</ion-label>
           <ion-label>{{i+1}} {{order.name}}</ion-label>
-          <ion-label>{{order.price}}</ion-label>
+          <ion-label>{{order.price | number}}</ion-label>
           <ion-select [(ngModel)]="orderlists[i].amount" (click)="saveCurrentAmount(i)" (ionChange)="checkAmount(i)">
             <ion-option value="{{amount}}" *ngFor="let amount of amounts">{{amount}}</ion-option>
           </ion-select>
@@ -53,7 +53,7 @@
           <ion-item-divider ><h1><b>ລວມ</b></h1></ion-item-divider>
           <ion-item padding text-end>
             <h2><b>ຈຳນວນ: {{totalAmountSale}} ຫົວ</b></h2>
-            <h2><b>ເປັນເງີນ: {{orderSum}} ₭</b></h2>
+            <h2><b>ເປັນເງີນ: {{orderSum | number}} ₭</b></h2>
           </ion-item>
         </ion-item-group>
 
@@ -77,9 +77,25 @@
         <ion-item-group>
           <ion-item-divider><h1><b>ລວມລາຄາຈ່າຍ</b></h1></ion-item-divider>
           <ion-item padding text-end>
-            <h1><b>{{payment}} ₭</b></h1>
+            <h1><b>{{payment | number}} ₭</b></h1>
           </ion-item>
         </ion-item-group>
+        <ion-item-group>
+          <hr>
+          <ion-item padding>
+            <ion-label fixed><h1><b>ເງິນທີ່ຮັບ</b></h1></ion-label>
+            <ion-input (ionChange)="recievemoneyEvt()" text-end type="number" [(ngModel)]="recieveMoney"></ion-input>
+          </ion-item>
+        </ion-item-group>
+        <hr>
+        <ion-item-group>
+
+          <ion-item padding>
+            <ion-label fixed><h1><b>ເງິນທອນ</b></h1></ion-label>
+            <ion-label text-end><h1><b>{{returnMoney | number}} ₭</b></h1></ion-label>
+          </ion-item>
+        </ion-item-group>
+
       </ion-card-content>
 
       <ion-grid>
